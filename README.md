@@ -25,7 +25,7 @@
 4. Предоставьте скриншот подключения к консоли и вывод команды ```sudo nginx -t```.
 
 ------
-![https://github.com/yahanext/terraform-04/blob/terraform-04/scr41.png](https://github.com/yahanext/terraform-04/blob/terraform-04/scr41.png)
+![https://github.com/yahanext/terraform-04/blob/main/scr41.png](https://github.com/yahanext/terraform-04/blob/main/scr41.png)
 ### Задание 2
 
 1. Напишите локальный модуль vpc, который будет создавать 2 ресурса: **одну** сеть и **одну** подсеть в зоне, объявленной при вызове модуля, например: ```ru-central1-a```.
