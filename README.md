@@ -45,6 +45,31 @@ module "vpc_dev" {
   cidr = "10.0.1.0/24"
 }
 ```
+```
+Модуль vpc
+yaha@yahawork:~/terr/terr2/devops28-terr1/src/vpc$ cat main.tf
+terraform {
+  required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
+    }
+  }
+  required_version = ">=0.13"
+}
+
+resource "yandex_vpc_network" "net_name" {
+  name = var.env_name
+}
+
+resource "yandex_vpc_subnet" "subnet_name" {
+  name           = "${var.env_name}-${var.zone}"
+  zone           = var.zone
+  network_id     = yandex_vpc_network.net_name.id
+  v4_cidr_blocks = [var.cidr]
+}yaha@yahawork:~/terr/terr2/devops28-terr1/src/vpc$ 
+```
+Скрин
+![https://github.com/yahanext/terraform-04/blob/main/scr42.png](https://github.com/yahanext/terraform-04/blob/main/scr42.png)
 
 ### Задание 3
 1. Выведите список ресурсов в стейте.
