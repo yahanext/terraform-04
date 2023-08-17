@@ -77,7 +77,119 @@ resource "yandex_vpc_subnet" "subnet_name" {
 3. Полностью удалите из стейта модуль vm.
 4. Импортируйте всё обратно. Проверьте terraform plan. Изменений быть не должно.
 Приложите список выполненных команд и скриншоты процессы.
+```
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform state list
+data.template_file.cloudinit
+module.test-vm.data.yandex_compute_image.my_image
+module.test-vm.yandex_compute_instance.vm[0]
+module.vpc.yandex_vpc_network.net_name
+module.vpc.yandex_vpc_subnet.subnet_name
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform state rm 'module.vpc'
+Removed module.vpc.yandex_vpc_network.net_name
+Removed module.vpc.yandex_vpc_subnet.subnet_name
+Successfully removed 2 resource instance(s).
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+aha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform state rm 'module.test-vm'
+Removed module.test-vm.data.yandex_compute_image.my_image
+Removed module.test-vm.yandex_compute_instance.vm[0]
+Successfully removed 2 resource instance(s).
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform state list
+data.template_file.cloudinit
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform import 'module.vpc.yandex_vpc_network.net_name' 'enp6ensqotaidjfn9dcs'
+data.template_file.cloudinit: Reading...
+data.template_file.cloudinit: Read complete after 0s [id=fd5f0b9b0f4ad231425e75645e2af659e9a051a411bfcdd8926a6f4e8467d341]
+module.vpc.yandex_vpc_network.net_name: Importing from ID "enp6ensqotaidjfn9dcs"...
+module.test-vm.data.yandex_compute_image.my_image: Reading...
+module.vpc.yandex_vpc_network.net_name: Import prepared!
+  Prepared yandex_vpc_network for import
+module.vpc.yandex_vpc_network.net_name: Refreshing state... [id=enp6ensqotaidjfn9dcs]
+module.test-vm.data.yandex_compute_image.my_image: Read complete after 2s [id=fd8mkq33tt9kvi2c10e5]
 
+Import successful!
+
+The resources that were imported are shown above. These resources are now in
+your Terraform state and will henceforth be managed by Terraform.
+
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform import 'module.vpc.yandex_vpc_subnet.subnet_name' 'e9b8ejnj21hbm1fi2rsk'
+data.template_file.cloudinit: Reading...
+data.template_file.cloudinit: Read complete after 0s [id=fd5f0b9b0f4ad231425e75645e2af659e9a051a411bfcdd8926a6f4e8467d341]
+module.test-vm.data.yandex_compute_image.my_image: Reading...
+module.vpc.yandex_vpc_subnet.subnet_name: Importing from ID "e9b8ejnj21hbm1fi2rsk"...
+module.vpc.yandex_vpc_subnet.subnet_name: Import prepared!
+  Prepared yandex_vpc_subnet for import
+module.vpc.yandex_vpc_subnet.subnet_name: Refreshing state... [id=e9b8ejnj21hbm1fi2rsk]
+module.test-vm.data.yandex_compute_image.my_image: Read complete after 4s [id=fd8mkq33tt9kvi2c10e5]
+
+Import successful!
+
+The resources that were imported are shown above. These resources are now in
+your Terraform state and will henceforth be managed by Terraform.
+
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform import 'module.test-vm.yandex_compute_instance.vm[0]' 'fhmg9fbgf4st7ndqhbtf'
+data.template_file.cloudinit: Reading...
+data.template_file.cloudinit: Read complete after 0s [id=fd5f0b9b0f4ad231425e75645e2af659e9a051a411bfcdd8926a6f4e8467d341]
+module.test-vm.data.yandex_compute_image.my_image: Reading...
+module.test-vm.data.yandex_compute_image.my_image: Read complete after 1s [id=fd8mkq33tt9kvi2c10e5]
+module.test-vm.yandex_compute_instance.vm[0]: Importing from ID "fhmg9fbgf4st7ndqhbtf"...
+module.test-vm.yandex_compute_instance.vm[0]: Import prepared!
+  Prepared yandex_compute_instance for import
+module.test-vm.yandex_compute_instance.vm[0]: Refreshing state... [id=fhmg9fbgf4st7ndqhbtf]
+
+Import successful!
+
+The resources that were imported are shown above. These resources are now in
+your Terraform state and will henceforth be managed by Terraform.
+
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform state list
+data.template_file.cloudinit
+module.test-vm.data.yandex_compute_image.my_image
+module.test-vm.yandex_compute_instance.vm[0]
+module.vpc.yandex_vpc_network.net_name
+module.vpc.yandex_vpc_subnet.subnet_name
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ terraform plan
+data.template_file.cloudinit: Reading...
+data.template_file.cloudinit: Read complete after 0s [id=fd5f0b9b0f4ad231425e75645e2af659e9a051a411bfcdd8926a6f4e8467d341]
+module.test-vm.data.yandex_compute_image.my_image: Reading...
+module.vpc.yandex_vpc_network.net_name: Refreshing state... [id=enp6ensqotaidjfn9dcs]
+module.test-vm.data.yandex_compute_image.my_image: Read complete after 2s [id=fd8mkq33tt9kvi2c10e5]
+module.vpc.yandex_vpc_subnet.subnet_name: Refreshing state... [id=e9b8ejnj21hbm1fi2rsk]
+module.test-vm.yandex_compute_instance.vm[0]: Refreshing state... [id=fhmg9fbgf4st7ndqhbtf]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # module.test-vm.yandex_compute_instance.vm[0] will be updated in-place
+  ~ resource "yandex_compute_instance" "vm" {
+      + allow_stopping_for_update = true
+        id                        = "fhmg9fbgf4st7ndqhbtf"
+        name                      = "develop-web-0"
+        # (11 unchanged attributes hidden)
+
+      - timeouts {}
+
+        # (6 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+yaha@yahawork:~/terr/terr2/devops28-terr1/src$ 
+```
+```
+Скриншоты
+```
+![https://github.com/yahanext/terraform-04/blob/main/scr43.png](https://github.com/yahanext/terraform-04/blob/main/scr43.png)
+![https://github.com/yahanext/terraform-04/blob/main/scr44.png](https://github.com/yahanext/terraform-04/blob/main/scr44.png)
+![https://github.com/yahanext/terraform-04/blob/main/scr45.png](https://github.com/yahanext/terraform-04/blob/main/scr45.png)
+![https://github.com/yahanext/terraform-04/blob/main/scr46.png](https://github.com/yahanext/terraform-04/blob/main/scr46.png)
 ## Дополнительные задания (со звёздочкой*)
 
 **Настоятельно рекомендуем выполнять все задания со звёздочкой.**   Они помогут глубже разобраться в материале.   
